@@ -35,6 +35,10 @@
 .portfolio-empty > i { font-size: 34px; color: #185b38; }
 .portfolio-empty h3 { margin: 12px 0; }
 .portfolio-empty .portfolio-primary { margin-top: 16px; }
+.portfolio-inline-steps { margin: 12px 0 18px; padding-left: 18px; font-size: 14px; line-height: 1.7; color: #466352; }
+.portfolio-inline-steps li { margin: 4px 0; }
+.portfolio-capture .portfolio-primary { margin-top: 4px; }
+#MapaClima { scroll-margin-top: 110px; }
 .portfolio-esg { margin-top: 18px; padding: 16px; border: 1px solid #d6e3d9; border-radius: 14px; background: #f7faf7; }
 .portfolio-esg.is-empty p { font-size: 13px; margin: 8px 0 0; color: #556f5e; }
 .portfolio-esg-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }

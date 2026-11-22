@@ -278,7 +278,7 @@ export default function MapaClimatico({ onSaveAnalysis }) {
   };
 
   return (
-    <div className="info-card climate-location-card fade-in">
+    <div id="MapaClima" className="info-card climate-location-card fade-in">
       {/* Primeiro eu explico como selecionar o local e ofereço o botão de GPS. */}
       <div className="climate-card-heading">
         <span className="climate-card-icon" aria-hidden="true">📍</span>
@@ -512,10 +512,17 @@ export default function MapaClimatico({ onSaveAnalysis }) {
                 <button type="button" className="location-button" onClick={() => {
                   // Copio somente a análise visível. Trocar o mapa depois não altera essa fotografia.
                   onSaveAnalysis({ result: structuredClone(result), consultedAt: new Date().toISOString() });
+                  // Levo o usuário ao formulário da carteira, já com a análise pronta para cadastrar.
+                  window.requestAnimationFrame(() => {
+                    document.getElementById('Propriedades')?.scrollIntoView({
+                      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+                      block: 'start',
+                    });
+                  });
                 }}>
                   Salvar esta análise na carteira
                 </button>
-                <small>Fase 7 · Salve na carteira para ver o painel ESG e os acumulados climáticos.</small>
+                <small>Fase 7 · Depois do clique, complete o nome/área na carteira para ver o painel ESG.</small>
               </div>
             )}
             <p className="climate-source">

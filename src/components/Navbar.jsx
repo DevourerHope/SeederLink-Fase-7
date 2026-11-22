@@ -41,6 +41,9 @@ export default function Navbar() {
             <a href="#Contato">Contato</a>
           </li>
           <li>
+            <a href="#MapaClima">Mapa</a>
+          </li>
+          <li>
             <a href="#Propriedades">Propriedades</a>
           </li>
         </ul>

@@ -106,6 +106,9 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
     // Levo o teclado junto com a rolagem para o usuário não perder o contexto.
     titleRef.current?.focus({ preventScroll: true });
     titleRef.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    window.setTimeout(() => {
+      document.querySelector('#Propriedades input[name="propertyName"]')?.focus({ preventScroll: true });
+    }, 350);
   }, [analysisToSave]);
 
   useEffect(() => {
@@ -216,13 +219,20 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
           {analysisToSave ? <>
             <p><strong>Ponto recebido do mapa:</strong><br />Latitude {number(analysisToSave.result.latitude, 5)} · Longitude {number(analysisToSave.result.longitude, 5)}</p>
             <p className="portfolio-meta">{analysisToSave.result.historical.provider} · {period(analysisToSave.result)}</p>
-            <p>Esta é uma fotografia da consulta. Mover o marcador não modifica um registro salvo. Para escolher outra análise, volte ao mapa e use novamente o botão de salvar.</p>
-          </> : <p>Selecione um ponto no mapa, espere a consulta terminar e clique em <strong>“Salvar esta análise na carteira”</strong>.</p>}
-          <a className="portfolio-secondary" href="#Contato">Ir para o mapa</a>
+            <p>Análise pronta. Preencha o formulário ao lado e clique em <strong>Salvar propriedade</strong>.</p>
+          </> : <>
+            <p>O cadastro só libera depois de uma consulta no mapa. Ordem:</p>
+            <ol className="portfolio-inline-steps">
+              <li>Abra o mapa e escolha um ponto</li>
+              <li>Espere o resultado climático</li>
+              <li>Clique em <strong>“Salvar esta análise na carteira”</strong></li>
+            </ol>
+          </>}
+          <a className="portfolio-primary" href="#MapaClima">Ir para o mapa</a>
         </div>
         <form onSubmit={saveProperty} className="portfolio-form" aria-label="Cadastro de propriedade">
           <fieldset disabled={!analysisToSave || Boolean(storageError)}>
-            <legend>{analysisToSave ? 'Complete o registro' : 'Aguardando uma análise do mapa'}</legend>
+            <legend>{analysisToSave ? 'Complete o registro' : 'Aguardando análise do mapa (formulário bloqueado)'}</legend>
             <label>Destino da análise<select aria-label="Destino da análise" value={draft.existingId} onChange={e => setDraft({ ...draft, existingId: e.target.value })}>
               <option value="">Cadastrar nova propriedade</option>
               {properties.map(p => <option key={p.id} value={p.id}>Atualizar histórico: {p.nome}</option>)}
@@ -254,7 +264,7 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
         <i className="bi bi-geo-alt" aria-hidden="true"></i>
         <h3>Nenhuma propriedade na carteira ainda</h3>
         <p>Adicione a primeira para estimar crédito climático e o painel ESG. Comece consultando um ponto no mapa.</p>
-        <a className="portfolio-primary" href="#Contato">Ir para o mapa</a>
+        <a className="portfolio-primary" href="#MapaClima">Ir para o mapa</a>
       </div>}
       <div className="portfolio-grid">{properties.map(property => <article className="portfolio-card" key={property.id} data-testid="property-card">
         <div className="portfolio-card-heading"><span className="portfolio-culture">{culture(property.cultura)}</span><span>{number(property.areaHectares, 2)} ha</span></div>
