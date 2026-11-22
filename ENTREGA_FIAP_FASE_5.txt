@@ -1,0 +1,21 @@
+SEEDERLINK - DADOS PARA A ENTREGA DA FASE 5
+
+Link do deploy público:
+https://dansfisica85.github.io/site_seederlink-wolvestech/
+
+Link do repositório:
+https://github.com/dansfisica85/site_seederlink-wolvestech
+
+Link do pitch da Fase 5 (até 3 minutos):
+https://youtu.be/U3APiszPvXw?is=fQs4xrjZObVEhg0c
+
+Integrantes do grupo:
+DAVI ANTONINO NUNES DA SILVA - RM 571722
+MATEUS AUGUSTO DA COSTA OLIVEIRA GONÇALVES - RM 570166
+MATHEUS RISSATO CRISPIM - RM 571038
+ISAAC NILTON ALVARENGA DA SILVA - RM 573766
+
+CONFERÊNCIA FINAL:
+O endereço do pitch da Fase 5 também foi colocado na Home, em
+src/components/Hero.jsx. O PDF da entrega contém os nomes completos, o link do
+vídeo e o link do deploy. O arquivo do vídeo não faz parte do ZIP acadêmico.

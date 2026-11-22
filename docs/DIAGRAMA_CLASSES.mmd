@@ -1,0 +1,62 @@
+---
+title: SeederLink - Fase 6 | Diagrama de classes (visão resumida)
+config:
+  theme: base
+  htmlLabels: false
+  themeVariables:
+    primaryColor: '#eef6ef'
+    primaryTextColor: '#173b2c'
+    primaryBorderColor: '#4c775b'
+    lineColor: '#426b51'
+    fontFamily: Arial
+    fontSize: 16px
+---
+classDiagram
+  %% Visão conceitual: atributos principais; assinaturas e tipos de retorno resumidos.
+  %% fromClimateResult recebe result e consultedAt. buscar e resumo podem retornar null.
+  %% O fonte completo está em src/domain/portfolio.js.
+  direction LR
+  class RepositorioLocal {
+    +Storage storage
+    +String key
+    +carregar()
+    +salvar(carteira)
+  }
+  class CarteiraPropriedades {
+    +PropriedadeRural[] propriedades
+    +adicionar(propriedade)
+    +remover(id)
+    +buscar(id)
+    +comparar(id1, id2)
+    +toJSON()
+    +fromJSON(value)$
+  }
+  class PropriedadeRural {
+    +String id
+    +String nome
+    +String cultura
+    +Number areaHectares
+    +Localizacao localizacao
+    +AnaliseClimatica[] analises
+    +adicionarAnalise(analise)
+    +resumo()
+    +toJSON()
+  }
+  class Localizacao {
+    +Number latitude
+    +Number longitude
+    +toJSON()
+  }
+  class AnaliseClimatica {
+    +String consultedAt
+    +Object current
+    +Object historical
+    +Object requestedPeriod
+    +Object assessment
+    +fromClimateResult()$
+    +toJSON()
+  }
+  CarteiraPropriedades <.. RepositorioLocal : carrega e salva
+  CarteiraPropriedades "1" o-- "0..10" PropriedadeRural : agrupa
+  PropriedadeRural "1" *-- "1" Localizacao : possui
+  PropriedadeRural "1" *-- "0..5" AnaliseClimatica : guarda snapshots

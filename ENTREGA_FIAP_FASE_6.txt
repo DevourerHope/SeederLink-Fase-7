@@ -1,0 +1,36 @@
+SEEDERLINK - FASE 6 / SPRINT 6
+
+INTEGRANTES
+DAVI ANTONINO NUNES DA SILVA - RM 571722
+MATEUS AUGUSTO DA COSTA OLIVEIRA GONÇALVES - RM 570166
+MATHEUS RISSATO CRISPIM - RM 571038
+ISAAC NILTON ALVARENGA DA SILVA - RM 573766
+
+DEPLOY
+https://dansfisica85.github.io/site_seederlink-wolvestech/
+
+REPOSITÓRIO
+https://github.com/dansfisica85/site_seederlink-wolvestech
+
+NOVA FUNCIONALIDADE
+Carteira de Propriedades: cadastro, persistência local, histórico e comparação.
+
+DIAGRAMA
+public/docs/diagrama-classes-fase6.png
+Fonte editável: docs/DIAGRAMA_CLASSES.mmd
+
+VÍDEO DA FASE 6
+https://youtu.be/BJ_unP9lmys
+Duração: 2 minutos e 55 segundos (limite da atividade: 3 minutos).
+O mesmo link está na Home, no README e no PDF da entrega.
+O roteiro está em docs/ROTEIRO_PITCH_FASE_6.md.
+O vídeo da Fase 5 permanece somente como referência histórica.
+
+PACOTE
+RM571722_DaviANS_FASE_6_SPRINT6.zip
+  - Seederlink_fase6.pdf
+  - 01_Projeto_SeederLink_Fase6.zip
+
+Não incluir arquivo de vídeo: entregar somente seu link no PDF e na Home.
+Manter o vídeo com visibilidade Público no YouTube, conforme o enunciado.
+Postar somente o ZIP externo na plataforma FIAP; esta etapa cabe ao aluno.
