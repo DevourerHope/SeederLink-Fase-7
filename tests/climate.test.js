@@ -5,6 +5,8 @@ import {
   ClimateDataError,
   REVIEW_MESSAGE,
   buildClimateUrls,
+  acumularSerieApartirDaMedia,
+  acumularSerieDiscreta,
   clearClimateCache,
   evaluateClimateSuitability,
   fetchClimateForLocation,
@@ -61,6 +63,25 @@ test('calcula médias somente com dias que possuem as três métricas', () => {
   assert.equal(summary.validDays, 2);
   assert.equal(summary.periodStart, '2026-01-01');
   assert.equal(summary.periodEnd, '2026-01-03');
+  assert.equal(summary.accumulations.temperatureDegreeDays, 46);
+  assert.equal(summary.accumulations.humidityPercentDays, 140);
+  assert.equal(summary.accumulations.radiationTotalMj, 20);
+  assert.equal(summary.accumulations.method, 'riemann-unitario');
+});
+
+test('acumula série diária e também a partir da média (integral discreta)', () => {
+  const rows = [
+    { temperature: 20, humidity: 60, radiation: 8.5 },
+    { temperature: 26, humidity: 80, radiation: 11.5 },
+  ];
+  const fromRows = acumularSerieDiscreta(rows);
+  assert.equal(fromRows.temperatureDegreeDays, 46);
+  assert.equal(fromRows.dayCount, 2);
+  const fromMean = acumularSerieApartirDaMedia({
+    temperatureMean: 23, humidityMean: 70, radiationMean: 10, validDays: 2,
+  });
+  assert.equal(fromMean.temperatureDegreeDays, 46);
+  assert.equal(fromMean.method, 'riemann-media');
 });
 
 test('não emite decisão quando o histórico é insuficiente', () => {

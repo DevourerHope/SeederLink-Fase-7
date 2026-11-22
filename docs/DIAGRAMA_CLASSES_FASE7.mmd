@@ -1,0 +1,64 @@
+classDiagram
+    direction LR
+
+    class Localizacao {
+      +Number latitude
+      +Number longitude
+      +toJSON() Object
+    }
+
+    class AnaliseClimatica {
+      +Number latitude
+      +Number longitude
+      +Object historical
+      +Object assessment
+      +fromClimateResult(result, consultedAt)$ AnaliseClimatica
+      +toJSON() Object
+    }
+
+    class IndicadorEsg {
+      +Number ambiental
+      +Number social
+      +Number governanca
+      +Number score
+      +Object acumulados
+      +String disclaimer
+      +fromPropriedade(prop)$ IndicadorEsg
+      +toJSON() Object
+    }
+
+    class PropriedadeRural {
+      +String id
+      +String nome
+      +String cultura
+      +Number areaHectares
+      +String contextoTerritorial
+      +adicionarAnalise(a) PropriedadeRural
+      +resumo() AnaliseClimatica
+      +indicadorEsg() IndicadorEsg
+      +toJSON() Object
+    }
+
+    class CarteiraPropriedades {
+      +PropriedadeRural[] propriedades
+      +adicionar(p) CarteiraPropriedades
+      +remover(id) CarteiraPropriedades
+      +buscar(id) PropriedadeRural
+      +comparar(id1, id2) Object
+      +fromJSON(value)$ CarteiraPropriedades
+      +toJSON() Object
+    }
+
+    class RepositorioLocal {
+      +Storage storage
+      +String key
+      +carregar() CarteiraPropriedades
+      +salvar(carteira) CarteiraPropriedades
+    }
+
+    CarteiraPropriedades "0..1" o-- "0..10" PropriedadeRural : agrega
+    PropriedadeRural "1" *-- "1" Localizacao : contem
+    PropriedadeRural "1" *-- "0..5" AnaliseClimatica : historico
+    PropriedadeRural ..> IndicadorEsg : calcula
+    IndicadorEsg ..> AnaliseClimatica : usa acumulados
+    RepositorioLocal ..> CarteiraPropriedades : persiste

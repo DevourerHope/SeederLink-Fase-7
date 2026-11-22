@@ -32,8 +32,24 @@
 .portfolio-toolbar p { font-size: 13px; }
 .portfolio-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 .portfolio-empty { padding: 45px 24px; text-align: center; border: 1px dashed #9bbb9e; border-radius: 18px; }
-.portfolio-empty > span { font-size: 34px; }
+.portfolio-empty > i { font-size: 34px; color: #185b38; }
 .portfolio-empty h3 { margin: 12px 0; }
+.portfolio-empty .portfolio-primary { margin-top: 16px; }
+.portfolio-esg { margin-top: 18px; padding: 16px; border: 1px solid #d6e3d9; border-radius: 14px; background: #f7faf7; }
+.portfolio-esg.is-empty p { font-size: 13px; margin: 8px 0 0; color: #556f5e; }
+.portfolio-esg-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.portfolio-esg h4 { margin: 0; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.portfolio-esg-score { margin: 0; display: flex; align-items: baseline; gap: 4px; color: #185b38; }
+.portfolio-esg-score strong { font-size: 28px; line-height: 1; }
+.portfolio-esg-score span { font-size: 12px; font-weight: 700; }
+.portfolio-esg-axes { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 12px; }
+.portfolio-esg-axis-label { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; font-weight: 700; }
+.portfolio-esg-bar { height: 8px; border-radius: 999px; background: #dce6df; overflow: hidden; margin: 6px 0; }
+.portfolio-esg-bar > span { display: block; height: 100%; background: #185b38; border-radius: inherit; }
+.portfolio-esg-axes small { color: #556f5e; font-size: 11px; }
+.portfolio-esg-accum { border-top: 0; padding-top: 8px; }
+.portfolio-esg-note { font-size: 11px; color: #556f5e; margin: 8px 0; line-height: 1.5; }
+.portfolio-diagram-link + .portfolio-diagram-link { margin-left: 16px; }
 .portfolio-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .portfolio-card { padding: 26px; border: 1px solid #d6e3d9; border-radius: 18px; background: white; min-width: 0; }
 .portfolio-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; color: #426b51; }

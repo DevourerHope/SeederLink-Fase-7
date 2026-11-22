@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  AnaliseClimatica, CarteiraPropriedades, Localizacao, PropriedadeRural,
+  AnaliseClimatica, CarteiraPropriedades, IndicadorEsg, Localizacao, PropriedadeRural,
   RepositorioLocal, STORAGE_KEY,
 } from '../src/domain/portfolio.js';
 import { APPROVED_MESSAGE, REVIEW_MESSAGE } from '../src/lib/climate.js';
@@ -228,4 +228,19 @@ test('permissão negada é explicada para leitura e gravação', () => {
   assert.throws(() => deniedRead.carregar(), /bloqueou o acesso/);
   const deniedWrite = new RepositorioLocal({ getItem: () => null, setItem() { throw new Error('denied'); } });
   assert.throws(() => deniedWrite.salvar(new CarteiraPropriedades()), /não permitiu salvar/);
+});
+
+test('painel ESG usa acumulados climáticos e contexto territorial', () => {
+  const familiar = property({ contextoTerritorial: 'familiar' });
+  const esg = familiar.indicadorEsg();
+  assert.ok(esg instanceof IndicadorEsg);
+  assert.equal(esg.ambiental, 100);
+  assert.equal(esg.social, 78);
+  assert.equal(esg.governanca, 100);
+  assert.equal(esg.score, 93);
+  assert.equal(esg.acumulados.temperatureDegreeDays, 24 * 365);
+  assert.match(esg.disclaimer, /demonstrativo/i);
+  assert.equal(STORAGE_KEY, 'seederlink:fase7:carteira:v1');
+  assert.throws(() => property({ contextoTerritorial: 'quilombo' }), /contexto territorial/);
+  assert.throws(() => IndicadorEsg.fromPropriedade(property({ analises: [] })), /análise climática/);
 });

@@ -109,6 +109,63 @@ export function validateCoordinates(latitude, longitude) {
   }
 }
 
+// Soma tipo Riemann com Δt = 1 dia: aproxima a integral definida da série diária.
+export function acumularSerieDiscreta(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) {
+    throw new ClimateDataError('Não há dias válidos para acumular a série climática.');
+  }
+
+  let temperatureDegreeDays = 0;
+  let humidityPercentDays = 0;
+  let radiationTotalMj = 0;
+
+  for (const row of rows) {
+    if (
+      !isFiniteNumber(row?.temperature) ||
+      !isFiniteNumber(row?.humidity) ||
+      !isFiniteNumber(row?.radiation)
+    ) {
+      throw new ClimateDataError('A série diária contém valores inválidos para acumulação.');
+    }
+    temperatureDegreeDays += row.temperature;
+    humidityPercentDays += row.humidity;
+    radiationTotalMj += row.radiation;
+  }
+
+  return Object.freeze({
+    temperatureDegreeDays,
+    humidityPercentDays,
+    radiationTotalMj,
+    dayCount: rows.length,
+    method: 'riemann-unitario',
+    note: 'Soma dos valores diários com Δt = 1 dia (aproximação da integral definida no período).',
+  });
+}
+
+// Quando só restam as médias salvas, reconstruo a soma com altura constante = média.
+export function acumularSerieApartirDaMedia(historical) {
+  const dayCount = historical?.validDays;
+  if (!Number.isInteger(dayCount) || dayCount < 1) {
+    throw new ClimateDataError('Não foi possível acumular a série a partir da média.');
+  }
+  if (
+    !isFiniteNumber(historical.temperatureMean) ||
+    !isFiniteNumber(historical.humidityMean) ||
+    !isFiniteNumber(historical.radiationMean)
+  ) {
+    throw new ClimateDataError('As médias históricas são inválidas para acumulação.');
+  }
+
+  return Object.freeze({
+    temperatureDegreeDays: historical.temperatureMean * dayCount,
+    humidityPercentDays: historical.humidityMean * dayCount,
+    radiationTotalMj: historical.radiationMean * dayCount,
+    dayCount,
+    method: 'riemann-media',
+    note: 'Soma aproximada pela média × dias válidos (retângulos de altura constante).',
+  });
+}
+
 // Converto as listas diárias da API em três médias usadas na triagem.
 export function summarizeHistoricalDaily(
   daily,
@@ -157,6 +214,7 @@ export function summarizeHistoricalDaily(
     validDays: validRows.length,
     periodStart: validRows[0].time,
     periodEnd: validRows[validRows.length - 1].time,
+    accumulations: acumularSerieDiscreta(validRows),
   };
 }
 

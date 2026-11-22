@@ -37,7 +37,7 @@ export default function Hero() {
             </a>
           </div>
 
-          <a className="portfolio-home-link" href="#Propriedades">Base da Fase 7: Carteira de Propriedades →</a>
+          <a className="portfolio-home-link" href="#Propriedades">Novidade da Fase 7: Painel ESG e indicadores acumulados →</a>
           {/* Eu só anuncio o pitch da Fase 7 quando seu link público estiver configurado. */}
           <a
             href={ENTREGA.pitchUrl || ENTREGA.pitchAnteriorUrl}

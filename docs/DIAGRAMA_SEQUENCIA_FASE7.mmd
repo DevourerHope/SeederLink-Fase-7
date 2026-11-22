@@ -1,0 +1,23 @@
+sequenceDiagram
+    autonumber
+    actor Usuario
+    participant UI as CarteiraPropriedades
+    participant Dom as PropriedadeRural
+    participant Ana as AnaliseClimatica
+    participant Esg as IndicadorEsg
+    participant Repo as RepositorioLocal
+    participant Store as localStorage
+
+    Usuario->>UI: Salva propriedade com análise do mapa
+    UI->>Ana: fromClimateResult(result, consultedAt)
+    Ana-->>UI: análise validada + acumulados
+    UI->>Dom: new PropriedadeRural(...analises)
+    UI->>Repo: salvar(carteira)
+    Repo->>Store: setItem(chave, JSON)
+    Store-->>Repo: ok
+    Repo-->>UI: carteira persistida
+    UI->>Dom: indicadorEsg()
+    Dom->>Esg: fromPropriedade(this)
+    Esg-->>Dom: score E/S/G + acumulados
+    Dom-->>UI: IndicadorEsg
+    UI-->>Usuario: Painel ESG na carteira

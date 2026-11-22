@@ -515,7 +515,7 @@ export default function MapaClimatico({ onSaveAnalysis }) {
                 }}>
                   Salvar esta análise na carteira
                 </button>
-                <small>Fase 6 · Dê um nome à propriedade, guarde o histórico e compare depois.</small>
+                <small>Fase 7 · Salve na carteira para ver o painel ESG e os acumulados climáticos.</small>
               </div>
             )}
             <p className="climate-source">

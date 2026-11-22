@@ -3,12 +3,19 @@ import {
   AnaliseClimatica, CarteiraPropriedades as Carteira, Localizacao,
   PropriedadeRural, RepositorioLocal, STORAGE_KEY,
 } from '../domain/portfolio';
+import PainelEsg from './PainelEsg';
 import '../styles/portfolio.css';
 
 const number = (value, digits = 1) => new Intl.NumberFormat('pt-BR', { maximumFractionDigits: digits }).format(value);
 const date = (value) => new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' }).format(new Date(value));
 const period = (analysis) => `${date(analysis.historical.periodStart)} a ${date(analysis.historical.periodEnd)}`;
 const culture = (value) => value === 'soja' ? 'Soja' : 'Tomate';
+const contextoLabel = {
+  nao_informado: 'Não informado',
+  familiar: 'Agricultura familiar',
+  comunitario: 'Contexto comunitário / territorial',
+  comercial: 'Produção comercial',
+};
 
 // Tento abrir a carteira uma vez. Se houver dados danificados, eu os preservo
 // e bloqueio a gravação, em vez de apagar silenciosamente o trabalho do usuário.
@@ -46,10 +53,16 @@ function Comparison({ comparison }) {
   const rows = [
     ['Cultura', p => culture(p.cultura)],
     ['Área informada', p => `${number(p.areaHectares, 2)} ha`],
+    ['Contexto territorial', p => contextoLabel[p.contextoTerritorial]],
     ['Coordenadas', p => `${number(p.localizacao.latitude, 5)}, ${number(p.localizacao.longitude, 5)}`],
     ['Temperatura média', p => `${number(p.resumo().historical.temperatureMean)} °C`],
     ['Umidade média', p => `${number(p.resumo().historical.humidityMean)}%`],
     ['Radiação média', p => `${number(p.resumo().historical.radiationMean)} MJ/m²/dia`],
+    ['Score ESG', p => `${p.indicadorEsg().score}/100`],
+    ['Eixo ambiental', p => p.indicadorEsg().ambiental],
+    ['Eixo social', p => p.indicadorEsg().social],
+    ['Eixo governança', p => p.indicadorEsg().governanca],
+    ['Graus-dia acumulados', p => `${number(p.indicadorEsg().acumulados.temperatureDegreeDays, 0)} °C·dia`],
     ['Histórico analisado', p => period(p.resumo())],
     ['Dias válidos', p => p.resumo().historical.validDays],
     ['Fonte', p => p.resumo().historical.provider],
@@ -61,7 +74,7 @@ function Comparison({ comparison }) {
     {!comparison.compativeis && <p className="portfolio-warning" role="status">
       Atenção: {comparison.motivos.join(' ')} Considere essas diferenças ao interpretar os valores.
     </p>}
-    <p>Comparo a análise mais recente de cada cadastro. Área e cultura são informações cadastrais; não alteram a regra climática.</p>
+    <p>Comparo a análise mais recente e o painel ESG de cada cadastro. Área, cultura e contexto territorial são cadastrais; não alteram sozinhos a regra climática.</p>
     <div className="portfolio-table-scroll" tabIndex={0} role="region" aria-label="Tabela comparativa; role para os lados em telas pequenas">
       <table><caption>Dados salvos de {first.nome} e {second.nome}</caption>
         <thead><tr><th scope="col">Informação</th><th scope="col">{first.nome}</th><th scope="col">{second.nome}</th></tr></thead>
@@ -77,7 +90,9 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
   const [storageError, setStorageError] = useState(initial.error);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [draft, setDraft] = useState({ nome: '', cultura: 'soja', areaHectares: '', existingId: '' });
+  const [draft, setDraft] = useState({
+    nome: '', cultura: 'soja', areaHectares: '', contextoTerritorial: 'nao_informado', existingId: '',
+  });
   const [selected, setSelected] = useState([]);
   const [comparison, setComparison] = useState(null);
   const [removingId, setRemovingId] = useState(null);
@@ -132,14 +147,19 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
         const property = new PropriedadeRural({
           id: crypto.randomUUID(), nome: draft.nome, cultura: draft.cultura,
           areaHectares: draft.areaHectares,
+          contextoTerritorial: draft.contextoTerritorial,
           localizacao: new Localizacao({ latitude: analysis.latitude, longitude: analysis.longitude }),
           analises: [analysis],
         });
         next = portfolio.adicionar(property);
       }
       persist(next);
-      setMessage(draft.existingId ? 'Nova análise adicionada ao histórico da propriedade.' : 'Propriedade salva neste navegador. Você já pode selecioná-la para comparar.');
-      setDraft({ nome: '', cultura: 'soja', areaHectares: '', existingId: '' });
+      setMessage(draft.existingId
+        ? 'Nova análise adicionada. O painel ESG foi recalculado com os acumulados climáticos.'
+        : 'Propriedade salva neste navegador. Confira o painel ESG e, se quiser, compare com outro cadastro.');
+      setDraft({
+        nome: '', cultura: 'soja', areaHectares: '', contextoTerritorial: 'nao_informado', existingId: '',
+      });
       onAnalysisSaved();
     } catch (cause) { setError(cause.message); }
   };
@@ -179,11 +199,11 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
   const properties = portfolio.propriedades;
   return <section id="Propriedades" className="portfolio-section" aria-labelledby="portfolio-title">
     <div className="portfolio-shell">
-      <div className="portfolio-heading"><span className="portfolio-eyebrow">FASE 6 · NOVA FUNCIONALIDADE</span>
+      <div className="portfolio-heading"><span className="portfolio-eyebrow">FASE 7 · PAINEL ESG</span>
         <h2 id="portfolio-title" ref={titleRef} tabIndex={-1}>Sua carteira de propriedades</h2>
-        <p>Transforme uma consulta no mapa em um registro que você pode revisitar. Cadastre a propriedade, acompanhe as análises e compare os indicadores com clareza.</p>
+        <p>Além de guardar e comparar análises, a Fase 7 estima um painel ESG demonstrativo e totais climáticos acumulados (soma diária ≈ integral discreta) para cada propriedade.</p>
       </div>
-      <ol className="portfolio-steps"><li><b>1</b> Consulte o mapa</li><li><b>2</b> Salve a propriedade</li><li><b>3</b> Compare duas análises</li></ol>
+      <ol className="portfolio-steps"><li><b>1</b> Consulte o mapa</li><li><b>2</b> Salve a propriedade</li><li><b>3</b> Veja o ESG e compare</li></ol>
       <p className="portfolio-local-note">Os dados ficam somente neste navegador e neste endereço do site, sem conta ou sincronização. Limpar os dados do navegador remove a carteira. Evite dispositivos compartilhados e exporte seu backup.</p>
 
       {storageError && <div className="portfolio-error" role="alert"><strong>Não foi possível abrir ou atualizar o armazenamento.</strong><p>{storageError}</p><p>Não apagamos seus dados. Confira as permissões do navegador e recarregue a página.</p></div>}
@@ -213,7 +233,13 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
                 <label>Cultura<select aria-label="Cultura" value={draft.cultura} onChange={e => setDraft({ ...draft, cultura: e.target.value })}><option value="soja">Soja</option><option value="tomate">Tomate</option></select></label>
                 <label>Área (hectares)<input name="propertyArea" value={draft.areaHectares} onChange={e => setDraft({ ...draft, areaHectares: e.target.value })} required inputMode="decimal" maxLength={16} placeholder="Ex.: 25,5" /></label>
               </div>
-              <small>Área e cultura organizam o cadastro; não alteram a triagem climática.</small>
+              <label>Contexto territorial<select aria-label="Contexto territorial" value={draft.contextoTerritorial} onChange={e => setDraft({ ...draft, contextoTerritorial: e.target.value })}>
+                <option value="nao_informado">Não informado</option>
+                <option value="familiar">Agricultura familiar</option>
+                <option value="comunitario">Contexto comunitário / territorial</option>
+                <option value="comercial">Produção comercial</option>
+              </select></label>
+              <small>Área, cultura e contexto organizam o cadastro. O contexto alimenta só o eixo social do ESG demonstrativo — com respeito e sem estereótipos.</small>
             </> : <p>O histórico aceita somente a mesma coordenada do cadastro e mantém as 5 consultas mais recentes. Copie as coordenadas do cartão para o mapa antes de consultar novamente.</p>}
             <button className="portfolio-primary" type="submit">{draft.existingId ? 'Adicionar ao histórico' : 'Salvar propriedade'}</button>
           </fieldset>
@@ -224,12 +250,18 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
         <div className="portfolio-actions"><button type="button" className="portfolio-secondary" disabled={!properties.length} onClick={exportPortfolio}>Exportar JSON</button>
           <button type="button" className="portfolio-primary" disabled={selected.length !== 2} onClick={compare}>Comparar selecionadas</button></div>
       </div>
-      {!properties.length && <div className="portfolio-empty"><span aria-hidden="true">🌱</span><h3>Sua primeira propriedade começa no mapa</h3><p>Nenhum cadastro salvo ainda. Uma análise concluída é o primeiro passo.</p></div>}
+      {!properties.length && <div className="portfolio-empty" data-testid="portfolio-empty">
+        <i className="bi bi-geo-alt" aria-hidden="true"></i>
+        <h3>Nenhuma propriedade na carteira ainda</h3>
+        <p>Adicione a primeira para estimar crédito climático e o painel ESG. Comece consultando um ponto no mapa.</p>
+        <a className="portfolio-primary" href="#Contato">Ir para o mapa</a>
+      </div>}
       <div className="portfolio-grid">{properties.map(property => <article className="portfolio-card" key={property.id} data-testid="property-card">
         <div className="portfolio-card-heading"><span className="portfolio-culture">{culture(property.cultura)}</span><span>{number(property.areaHectares, 2)} ha</span></div>
         <h4>{property.nome}</h4>
-        <p className="portfolio-meta">Lat. {number(property.localizacao.latitude, 5)} · Long. {number(property.localizacao.longitude, 5)}</p>
+        <p className="portfolio-meta">Lat. {number(property.localizacao.latitude, 5)} · Long. {number(property.localizacao.longitude, 5)} · {contextoLabel[property.contextoTerritorial]}</p>
         <AnalysisSummary analysis={property.resumo()} />
+        <PainelEsg property={property} />
         <details className="portfolio-history"><summary>Histórico · {property.analises.length} de 5 consultas</summary>
           <p>As consultas mais antigas são substituídas quando o limite de cinco é atingido.</p>
           {[...property.analises].reverse().map((analysis, index) => <div key={`${analysis.consultedAt}-${index}`}><strong>Registro {property.analises.length - index}</strong><AnalysisSummary analysis={analysis} /></div>)}
@@ -247,7 +279,8 @@ export default function CarteiraPropriedades({ analysisToSave, onAnalysisSaved }
       </article>)}</div>
       {comparison && <Comparison comparison={comparison} />}
       <p className="portfolio-footnote">Os resultados são acadêmicos e indicativos. A comparação não substitui análise agronômica, vistoria ou decisão financeira. Dados salvos não são atualizados automaticamente.</p>
-      <a className="portfolio-diagram-link" href={`${import.meta.env.BASE_URL}docs/diagrama-classes-fase6.png`} target="_blank" rel="noopener noreferrer">Ver diagrama de classes da Fase 6 ↗</a>
+      <a className="portfolio-diagram-link" href={`${import.meta.env.BASE_URL}docs/diagrama-classes-fase7.png`} target="_blank" rel="noopener noreferrer">Ver diagrama de classes da Fase 7 ↗</a>
+      <a className="portfolio-diagram-link" href={`${import.meta.env.BASE_URL}docs/diagrama-sequencia-fase7.png`} target="_blank" rel="noopener noreferrer">Ver diagrama de sequência da Fase 7 ↗</a>
     </div>
   </section>;
 }

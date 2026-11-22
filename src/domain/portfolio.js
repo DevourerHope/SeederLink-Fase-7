@@ -1,4 +1,5 @@
 import {
+  acumularSerieApartirDaMedia,
   evaluateClimateSuitability,
   MINIMUM_VALID_DAYS,
   REVIEW_MESSAGE,
@@ -7,7 +8,13 @@ import {
 
 export const MAX_PROPERTIES = 10;
 export const MAX_ANALYSES = 5;
-export const STORAGE_KEY = 'seederlink:fase6:carteira:v1';
+export const STORAGE_KEY = 'seederlink:fase7:carteira:v1';
+export const CONTEXTOS_TERRITORIAIS = Object.freeze([
+  'nao_informado',
+  'familiar',
+  'comunitario',
+  'comercial',
+]);
 
 // Centralizo as mensagens para o formulário explicar o problema sem mostrar erro técnico.
 export class PortfolioError extends Error {
@@ -65,6 +72,35 @@ function freezeDeep(value) {
 
 function copy(value) {
   return JSON.parse(JSON.stringify(value));
+}
+
+function normalizeAccumulations(historical, validDays) {
+  const source = historical?.accumulations;
+  if (source && typeof source === 'object') {
+    return {
+      temperatureDegreeDays: number(source.temperatureDegreeDays, 'Os graus-dia acumulados', -100000, 100000),
+      humidityPercentDays: number(source.humidityPercentDays, 'A umidade acumulada', 0, 100000),
+      radiationTotalMj: number(source.radiationTotalMj, 'A radiação acumulada', 0, 100000),
+      dayCount: number(source.dayCount ?? validDays, 'Os dias da acumulação', validDays, validDays),
+      method: text(source.method ?? 'riemann-unitario', 'O método de acumulação', 3, 40),
+      note: text(
+        source.note ?? 'Soma dos valores diários com Δt = 1 dia (aproximação da integral definida no período).',
+        'A nota da acumulação',
+        10,
+        200,
+      ),
+    };
+  }
+  return acumularSerieApartirDaMedia({
+    temperatureMean: historical.temperatureMean,
+    humidityMean: historical.humidityMean,
+    radiationMean: historical.radiationMean,
+    validDays,
+  });
+}
+
+function clampScore(value) {
+  return Math.max(0, Math.min(100, Math.round(value)));
 }
 
 export class Localizacao {
@@ -128,6 +164,7 @@ export class AnaliseClimatica {
       providerUrl: historical.provider === 'Open-Meteo'
         ? 'https://open-meteo.com/en/docs/historical-weather-api'
         : 'https://power.larc.nasa.gov/',
+      accumulations: normalizeAccumulations(historical, validDays),
     };
 
     // Refaço a regra com os números validados, mesmo ao carregar uma análise antiga.
@@ -152,8 +189,60 @@ export class AnaliseClimatica {
   }
 }
 
+export class IndicadorEsg {
+  constructor({ ambiental, social, governanca, acumulados, disclaimer } = {}) {
+    this.ambiental = number(ambiental, 'O eixo ambiental', 0, 100);
+    this.social = number(social, 'O eixo social', 0, 100);
+    this.governanca = number(governanca, 'O eixo de governança', 0, 100);
+    this.score = clampScore((this.ambiental + this.social + this.governanca) / 3);
+    this.acumulados = requireObject(acumulados, 'Os acumulados climáticos');
+    this.disclaimer = text(disclaimer, 'O aviso do indicador ESG', 20, 320);
+    freezeDeep(this);
+  }
+
+  // Score demonstrativo da Fase 7: clima (E), contexto territorial (S) e qualidade dos dados (G).
+  static fromPropriedade(propriedade) {
+    if (!(propriedade instanceof PropriedadeRural)) {
+      throw new PortfolioError('Informe uma propriedade válida para calcular o ESG.');
+    }
+    const analysis = propriedade.resumo();
+    if (!analysis) {
+      throw new PortfolioError('Salve uma análise climática antes de calcular o painel ESG.');
+    }
+
+    const checks = analysis.assessment.checks;
+    const ambiental = clampScore(
+      (Number(checks.temperature) + Number(checks.humidity) + Number(checks.radiation)) / 3 * 100,
+    );
+    const socialByContext = {
+      nao_informado: 45,
+      familiar: 78,
+      comunitario: 86,
+      comercial: 62,
+    };
+    const social = socialByContext[propriedade.contextoTerritorial] ?? 45;
+    let governanca = 40;
+    if (analysis.historical.validDays >= MINIMUM_VALID_DAYS) governanca += 25;
+    if (analysis.historical.provider === 'Open-Meteo') governanca += 20;
+    if (!analysis.assessment.dataQualityReview) governanca += 15;
+    governanca = clampScore(governanca);
+
+    return new IndicadorEsg({
+      ambiental,
+      social,
+      governanca,
+      acumulados: analysis.historical.accumulations,
+      disclaimer: 'Indicador acadêmico demonstrativo. Não substitui laudo ESG, ISE B3 nem decisão de crédito.',
+    });
+  }
+
+  toJSON() {
+    return copy({ ...this });
+  }
+}
+
 export class PropriedadeRural {
-  constructor({ id, nome, cultura, areaHectares, localizacao, analises = [] } = {}) {
+  constructor({ id, nome, cultura, areaHectares, localizacao, contextoTerritorial = 'nao_informado', analises = [] } = {}) {
     this.id = text(id, 'O identificador', 1, 100);
     this.nome = text(nome, 'O nome da propriedade', 2, 80);
     if (!['soja', 'tomate'].includes(cultura)) {
@@ -164,6 +253,10 @@ export class PropriedadeRural {
     const area = typeof areaHectares === 'string' && /^\d+(?:[.,]\d+)?$/.test(areaHectares.trim())
       ? Number(areaHectares.trim().replace(',', '.')) : areaHectares;
     this.areaHectares = number(area, 'A área em hectares', 0.0001, 1000000);
+    if (!CONTEXTOS_TERRITORIAIS.includes(contextoTerritorial)) {
+      throw new PortfolioError('Selecione um contexto territorial válido.');
+    }
+    this.contextoTerritorial = contextoTerritorial;
     this.localizacao = localizacao instanceof Localizacao
       ? localizacao : new Localizacao(requireObject(localizacao, 'A localização'));
     if (!Array.isArray(analises) || analises.length > MAX_ANALYSES) {
@@ -199,12 +292,17 @@ export class PropriedadeRural {
     return this.analises.at(-1) ?? null;
   }
 
+  indicadorEsg() {
+    return IndicadorEsg.fromPropriedade(this);
+  }
+
   toJSON() {
     return {
       id: this.id,
       nome: this.nome,
       cultura: this.cultura,
       areaHectares: this.areaHectares,
+      contextoTerritorial: this.contextoTerritorial,
       localizacao: this.localizacao.toJSON(),
       analises: this.analises.map((item) => item.toJSON()),
     };

@@ -1,14 +1,17 @@
 # SeederLink · Fase 7
 
-**Continuação solo da Carteira de Propriedades**, a partir da base acadêmica da Fase 6.
+**Painel ESG + indicadores climáticos acumulados**, sobre a carteira da Fase 6.
 
-Projeto acadêmico FIAP. A interface permanece em React. Este repositório é a entrega individual da Fase 7 (Mateus Augusto), com dependências atualizadas, testes, build e publicação via GitHub Pages.
+Projeto acadêmico FIAP (entrega individual — Mateus Augusto). React + Vite, testes, build e GitHub Pages.
 
 - [Site no GitHub Pages](https://devourerhope.github.io/SeederLink-Fase-7/)
 - [Repositório](https://github.com/DevourerHope/SeederLink-Fase-7)
-- [Diagrama UML em imagem](public/docs/diagrama-classes-fase6.png)
-- [Roteiro do pitch da Fase 6 (referência)](docs/ROTEIRO_PITCH_FASE_6.md)
-- [Checklist da Fase 6 (referência)](docs/CHECKLIST_ENTREGA_FASE6.md)
+- [Checklist da Fase 7](docs/CHECKLIST_ENTREGA_FASE7.md)
+- [Comparação Fase 6 → 7](docs/COMPARACAO_FASE6_FASE7.md)
+- [Roteiro do pitch da Fase 7](docs/ROTEIRO_PITCH_FASE_7.md)
+- [Validação da Fase 7](docs/VALIDACAO_FASE7.md)
+- [Diagrama de classes](public/docs/diagrama-classes-fase7.png)
+- [Diagrama de sequência](public/docs/diagrama-sequencia-fase7.png)
 
 > Demonstração acadêmica: a triagem não concede crédito real nem determina aptidão agrícola. A carteira usa `localStorage`, sem conta, servidor ou sincronização entre dispositivos. O formulário de contato herdado valida e exibe confirmação visual, mas não envia e-mail.
 
@@ -22,9 +25,9 @@ Projeto acadêmico FIAP. A interface permanece em React. Este repositório é a 
 
 | Preservado | Estado nesta Fase 7 |
 | --- | --- |
-| Mapa, consulta climática e carteira | Funcionais como na Fase 6 |
-| Cinco classes de domínio e UML | Mantidos como base |
-| Deploy via GitHub Actions | Novo repositório solo + Pages |
+| Mapa, consulta climática e carteira | Mantidos |
+| Classes de domínio | + `IndicadorEsg`, contexto territorial e acumulados |
+| Deploy via GitHub Actions | Pages solo `/SeederLink-Fase-7/` |
 | Documentação da Fase 6 | Conservada em `docs/` como referência |
 
 O README da Fase 5 permanece em [docs/README_FASE5_REFERENCIA.md](docs/README_FASE5_REFERENCIA.md). A comparação Fase 5 → 6 está em [docs/COMPARACAO_FASE5_FASE6.md](docs/COMPARACAO_FASE5_FASE6.md).
