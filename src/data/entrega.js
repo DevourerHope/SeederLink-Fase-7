@@ -4,5 +4,5 @@ export const ENTREGA = Object.freeze({
   fase: 7,
   pitchUrl: '',
   pitchAnteriorUrl: 'https://youtu.be/BJ_unP9lmys',
-  deployUrl: 'https://devourerhope.github.io/site_seederlink-fase7/',
+  deployUrl: 'https://devourerhope.github.io/SeederLink-Fase-7/',
 });

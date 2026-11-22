@@ -20,8 +20,8 @@ config = (root / 'src/data/entrega.js').read_text(encoding='utf-8')
 pitch_match = re.search(r"pitchUrl:\s*['\"](https://[^'\"]+)['\"]", config)
 pitch = pitch_match.group(1) if pitch_match else None
 deploy_match = re.search(r"deployUrl:\s*['\"](https://[^'\"]+)['\"]", config)
-deploy = deploy_match.group(1) if deploy_match else 'https://devourerhope.github.io/site_seederlink-fase7/'
-repo = 'https://github.com/DevourerHope/site_seederlink-fase7'
+deploy = deploy_match.group(1) if deploy_match else 'https://devourerhope.github.io/SeederLink-Fase-7/'
+repo = 'https://github.com/DevourerHope/SeederLink-Fase-7'
 members = [
     ('MATEUS AUGUSTO DA COSTA OLIVEIRA GONÇALVES', '570166'),
 ]

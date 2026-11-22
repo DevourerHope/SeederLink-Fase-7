@@ -22,7 +22,7 @@ concurrency:
 
 # O Vite precisa deste caminho porque o site fica em uma subpasta do GitHub Pages.
 env:
-  VITE_BASE_PATH: /site_seederlink-fase7/
+  VITE_BASE_PATH: /SeederLink-Fase-7/
 
 jobs:
   # Este job instala uma versão limpa, testa e gera a pasta dist.

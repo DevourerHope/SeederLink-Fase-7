@@ -15,5 +15,5 @@ test('endereço de deploy aponta para o site publicado com HTTPS', () => {
   const deploy = new URL(ENTREGA.deployUrl);
   assert.equal(deploy.protocol, 'https:');
   assert.equal(deploy.hostname, 'devourerhope.github.io');
-  assert.equal(deploy.pathname, '/site_seederlink-fase7/');
+  assert.equal(deploy.pathname, '/SeederLink-Fase-7/');
 });

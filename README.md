@@ -4,8 +4,8 @@
 
 Projeto acadêmico FIAP. A interface permanece em React. Este repositório é a entrega individual da Fase 7 (Mateus Augusto), com dependências atualizadas, testes, build e publicação via GitHub Pages.
 
-- [Site no GitHub Pages](https://devourerhope.github.io/site_seederlink-fase7/)
-- [Repositório](https://github.com/DevourerHope/site_seederlink-fase7)
+- [Site no GitHub Pages](https://devourerhope.github.io/SeederLink-Fase-7/)
+- [Repositório](https://github.com/DevourerHope/SeederLink-Fase-7)
 - [Diagrama UML em imagem](public/docs/diagrama-classes-fase6.png)
 - [Roteiro do pitch da Fase 6 (referência)](docs/ROTEIRO_PITCH_FASE_6.md)
 - [Checklist da Fase 6 (referência)](docs/CHECKLIST_ENTREGA_FASE6.md)
@@ -84,7 +84,7 @@ npm run test:ui
 
 ## Deploy
 
-O provedor é GitHub Pages. Em Settings > Pages, a origem deve ser **GitHub Actions**. O workflow `.github/workflows/deploy-pages.yml` instala dependências, executa testes e build e publica a `main`, usando `VITE_BASE_PATH=/site_seederlink-fase7/`. Pull requests são testados sem publicar.
+O provedor é GitHub Pages. Em Settings > Pages, a origem deve ser **GitHub Actions**. O workflow `.github/workflows/deploy-pages.yml` instala dependências, executa testes e build e publica a `main`, usando `VITE_BASE_PATH=/SeederLink-Fase-7/`. Pull requests são testados sem publicar.
 
 Após enviar uma alteração, aguarde `build` e `deploy` concluírem e confira o site em janela anônima. Nunca envie `.env`, credenciais ou `node_modules`.
 
