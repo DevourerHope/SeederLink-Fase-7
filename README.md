@@ -2,9 +2,9 @@
 
 **Painel ESG + indicadores climáticos acumulados**, sobre a carteira da Fase 6.
 
-Projeto acadêmico FIAP (entrega individual — Mateus Augusto). React + Vite, testes, build e GitHub Pages.
+Projeto acadêmico FIAP (entrega individual — Mateus Augusto). React + Vite, testes, build e deploy via Vercel.
 
-- [Site no GitHub Pages](https://devourerhope.github.io/SeederLink-Fase-7/)
+- [Site na Vercel](https://seederlink-fase-7.vercel.app/)
 - [Repositório](https://github.com/DevourerHope/SeederLink-Fase-7)
 - [Checklist da Fase 7](docs/CHECKLIST_ENTREGA_FASE7.md)
 - [Comparação Fase 6 → 7](docs/COMPARACAO_FASE6_FASE7.md)
@@ -29,7 +29,7 @@ Projeto acadêmico FIAP (entrega individual — Mateus Augusto). React + Vite, t
 | --- | --- |
 | Mapa, consulta climática e carteira | Mantidos |
 | Classes de domínio | + `IndicadorEsg`, contexto territorial e acumulados |
-| Deploy via GitHub Actions | Pages solo `/SeederLink-Fase-7/` |
+| Deploy via Vercel | Configurado com `vercel.json` |
 | Documentação da Fase 6 | Conservada em `docs/` como referência |
 
 O README da Fase 5 permanece em [docs/README_FASE5_REFERENCIA.md](docs/README_FASE5_REFERENCIA.md). A comparação Fase 5 → 6 está em [docs/COMPARACAO_FASE5_FASE6.md](docs/COMPARACAO_FASE5_FASE6.md).
@@ -65,11 +65,11 @@ Não abra `index.html` por duplo clique: JSX precisa do Vite. Não há token cli
 8. Para atualizar um histórico, consulte a mesma coordenada e escolha **Atualizar histórico** no destino.
 9. **Exportar JSON** baixa uma cópia legível. A remoção pede confirmação.
 
-**Privacidade:** os dados ficam neste navegador e nesta origem. `localhost`, GitHub Pages e outros domínios têm carteiras separadas.
+**Privacidade:** os dados ficam neste navegador e nesta origem. `localhost`, Vercel e outros domínios têm carteiras separadas.
 
 ## Stack e dependências
 
-- React 19 + Vite 8 + `@vitejs/plugin-react` 6
+- React 18 + Vite 7 + `@vitejs/plugin-react` 5
 - Leaflet 1.9.4 e Bootstrap Icons
 - Node.js `>=26`
 
@@ -89,9 +89,9 @@ npm run test:ui
 
 ## Deploy
 
-O provedor é GitHub Pages. Em Settings > Pages, a origem deve ser **GitHub Actions**. O workflow `.github/workflows/deploy-pages.yml` instala dependências, executa testes e build e publica a `main`, usando `VITE_BASE_PATH=/SeederLink-Fase-7/`. Pull requests são testados sem publicar.
+O provedor é a [Vercel](https://vercel.com). O arquivo `vercel.json` configura o build automático e o SPA routing. Cada push na branch `main` dispara um novo deploy automaticamente.
 
-Após enviar uma alteração, aguarde `build` e `deploy` concluírem e confira o site em janela anônima. Nunca envie `.env`, credenciais ou `node_modules`.
+Após enviar uma alteração, o deploy é automático. Confira o site em `https://seederlink-fase-7.vercel.app` em janela anônima. Nunca envie `.env`, credenciais ou `node_modules`.
 
 ## Pitch
 
