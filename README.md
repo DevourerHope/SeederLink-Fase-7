@@ -15,11 +15,13 @@ Projeto acadêmico FIAP (entrega individual — Mateus Augusto). React + Vite, t
 
 > Demonstração acadêmica: a triagem não concede crédito real nem determina aptidão agrícola. A carteira usa `localStorage`, sem conta, servidor ou sincronização entre dispositivos. O formulário de contato herdado valida e exibe confirmação visual, mas não envia e-mail.
 
-## Integrante
+## Integrantes
 
 | Nome completo | RM |
 | --- | --- |
 | MATEUS AUGUSTO DA COSTA OLIVEIRA GONÇALVES | 570166 |
+| MATHEUS RISSATO CRISPIM | 571038 |
+| ISAAC NILTON ALVARENGA DA SILVA | 573766 |
 
 ## Base herdada da Fase 6
 
