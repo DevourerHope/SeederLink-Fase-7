@@ -36,7 +36,7 @@ O README da Fase 5 permanece em [docs/README_FASE5_REFERENCIA.md](docs/README_FA
 
 ## Executar localmente
 
-Instale Node.js 22.12+ (recomendado 24 LTS, ver `.nvmrc`), abra a pasta no VS Code e execute:
+Instale Node.js 26+, abra a pasta no VS Code e execute:
 
 ```bash
 npm ci
@@ -71,7 +71,7 @@ Não abra `index.html` por duplo clique: JSX precisa do Vite. Não há token cli
 
 - React 19 + Vite 8 + `@vitejs/plugin-react` 6
 - Leaflet 1.9.4 e Bootstrap Icons
-- Node.js `>=22.12.0` (CI usa a versão do `.nvmrc`)
+- Node.js `>=26`
 
 ## Testes
 
