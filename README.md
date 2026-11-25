@@ -2,7 +2,7 @@
 
 **Painel ESG + indicadores climáticos acumulados**, sobre a carteira da Fase 6.
 
-Projeto acadêmico FIAP (entrega individual — Mateus Augusto). React + Vite, testes, build e deploy via Vercel.
+Projeto acadêmico FIAP. React + Vite, testes, build e deploy via Vercel.
 
 - [Site na Vercel](https://seederlink-fase-7.vercel.app/)
 - [Repositório](https://github.com/DevourerHope/SeederLink-Fase-7)
