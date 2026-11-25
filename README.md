@@ -2,7 +2,7 @@
 
 **Painel ESG + indicadores climáticos acumulados**, sobre a carteira da Fase 6.
 
-Projeto acadêmico FIAP. React + Vite, testes, build e deploy via Vercel.
+Projeto acadêmico FIAP desenvolvido por Mateus Augusto, Matheus Rissato e Isaac Alvarenga. React + Vite, testes, build e deploy via Vercel.
 
 - [Site na Vercel](https://seederlink-fase-7.vercel.app/)
 - [Repositório](https://github.com/DevourerHope/SeederLink-Fase-7)
@@ -17,11 +17,11 @@ Projeto acadêmico FIAP. React + Vite, testes, build e deploy via Vercel.
 
 ## Integrantes
 
-| Nome completo | RM |
-| --- | --- |
-| MATEUS AUGUSTO DA COSTA OLIVEIRA GONÇALVES | 570166 |
-| MATHEUS RISSATO CRISPIM | 571038 |
-| ISAAC NILTON ALVARENGA DA SILVA | 573766 |
+| Nome completo | GitHub | Papel | RM |
+| --- | --- | --- | --- |
+| MATEUS AUGUSTO DA COSTA OLIVEIRA GONÇALVES | [@DevourerHope](https://github.com/DevourerHope) | Owner | 570166 |
+| MATHEUS RISSATO CRISPIM | [@matheusrsst](https://github.com/matheusrsst) | Collaborator | 571038 |
+| ISAAC NILTON ALVARENGA DA SILVA | [@isawc](https://github.com/isawc) | Collaborator | 573766 |
 
 ## Base herdada da Fase 6
 
@@ -95,4 +95,4 @@ Após enviar uma alteração, o deploy é automático. Confira o site em `https:
 
 ## Pitch
 
-O pitch da Fase 7 ainda não foi publicado. Enquanto isso, a Home aponta para o [pitch da Fase 6](https://youtu.be/BJ_unP9lmys) como referência. Quando o vídeo novo estiver público, atualize `pitchUrl` em `src/data/entrega.js`, rode os testes e faça o deploy.
+O [vídeo do pitch da Fase 7](https://youtu.be/7Wj7URADJXY?is=-58kvTCU-98ZBtOD) está disponível na Home. O [pitch da Fase 6](https://youtu.be/BJ_unP9lmys) permanece disponível como referência.

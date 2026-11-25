@@ -2,10 +2,10 @@
 
 ## Referência utilizada
 
-A referência é o projeto da Fase 6 (Carteira de Propriedades), migrado para o repositório solo:
+A referência é o projeto da Fase 6 (Carteira de Propriedades), migrado para o repositório da Fase 7:
 
 - Base anterior: https://github.com/dansfisica85/site_seederlink-wolvestech
-- Entrega solo: https://github.com/DevourerHope/SeederLink-Fase-7
+- Repositório da Fase 7: https://github.com/DevourerHope/SeederLink-Fase-7
 
 Na Fase 6, a novidade era a **Carteira de Propriedades**. Na Fase 7, a novidade é o **Painel ESG** com indicadores climáticos acumulados (integral discreta sobre a série histórica).
 
@@ -18,8 +18,8 @@ Na Fase 6, a novidade era a **Carteira de Propriedades**. Na Fase 7, a novidade 
 | Persistência | `seederlink:fase6:carteira:v1` | `seederlink:fase7:carteira:v1` |
 | Modelagem / UML | Cinco classes de domínio. | + `IndicadorEsg`; diagramas de classes e sequência. |
 | Cadastro | Nome, cultura, área. | + contexto territorial (eixo social). |
-| Deploy | Pages do grupo. | Pages solo: `/SeederLink-Fase-7/` |
-| Autoria | Quatro integrantes. | Entrega individual — RM 570166 |
+| Deploy | Pages do grupo. | Pages: `/SeederLink-Fase-7/` |
+| Autoria | Quatro integrantes. | Três integrantes; perfis listados no `README.md`. |
 
 ## Fluxo da nova funcionalidade
 
@@ -44,5 +44,6 @@ Na Fase 6, a novidade era a **Carteira de Propriedades**. Na Fase 7, a novidade 
 
 - Site: https://devourerhope.github.io/SeederLink-Fase-7/
 - Repositório: https://github.com/DevourerHope/SeederLink-Fase-7
-- Pitch: aguardando publicação (Home usa o da Fase 6 como referência até lá)
+- Vídeo do pitch da Fase 7: https://youtu.be/7Wj7URADJXY?is=-58kvTCU-98ZBtOD
+- Pitch da Fase 6: https://youtu.be/BJ_unP9lmys
 - Roteiro: [ROTEIRO_PITCH_FASE_7.md](ROTEIRO_PITCH_FASE_7.md)

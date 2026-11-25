@@ -38,7 +38,7 @@ export default function Hero() {
           </div>
 
           <a className="portfolio-home-link" href="#Propriedades">Novidade da Fase 7: Painel ESG e indicadores acumulados →</a>
-          {/* Eu só anuncio o pitch da Fase 7 quando seu link público estiver configurado. */}
+          {/* O link da Fase 7 abre o vídeo da apresentação desta entrega. */}
           <a
             href={ENTREGA.pitchUrl || ENTREGA.pitchAnteriorUrl}
             target="_blank"
@@ -53,7 +53,7 @@ export default function Hero() {
               <strong>
                 {ENTREGA.pitchUrl ? 'Assistir Pitch — Fase 7' : 'Apresentação anterior — Fase 6'}
               </strong>
-              <p>{ENTREGA.pitchUrl ? 'Conheça a evolução desta fase.' : 'A carteira e o UML que serviram de base para esta versão.'}</p>
+              <p>{ENTREGA.pitchUrl ? 'Assista ao vídeo da apresentação da Fase 7.' : 'A carteira e o UML que serviram de base para esta versão.'}</p>
             </div>
           </a>
           {!ENTREGA.pitchUrl && <p className="portfolio-pitch-pending">Pitch da Fase 7: aguardando publicação do vídeo.</p>}

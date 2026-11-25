@@ -3,9 +3,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ENTREGA } from '../src/data/entrega.js';
 
-test('entrega da Fase 7 aponta para o repositório solo e mantém o pitch anterior', () => {
+test('entrega da Fase 7 usa o vídeo informado e mantém o pitch anterior como referência', () => {
   assert.equal(ENTREGA.fase, 7);
-  assert.equal(ENTREGA.pitchUrl, '');
+  assert.equal(ENTREGA.pitchUrl, 'https://youtu.be/7Wj7URADJXY?is=-58kvTCU-98ZBtOD');
   assert.equal(ENTREGA.pitchAnteriorUrl, 'https://youtu.be/BJ_unP9lmys');
   assert.notEqual(ENTREGA.pitchUrl, ENTREGA.pitchAnteriorUrl);
   assert.equal(Object.isFrozen(ENTREGA), true);

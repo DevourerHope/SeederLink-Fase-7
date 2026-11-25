@@ -11,8 +11,8 @@ Conferência de fechamento: **22/11/2026**.
 | 1.1.3 | Nova funcionalidade. | Painel ESG + acumulados climáticos (integral discreta). |
 | 1.2.1 | Classes com atributos, métodos e relacionamentos. | `IndicadorEsg` + classes da carteira em `src/domain/portfolio.js`. |
 | 1.2.1 | UML em imagem no PDF. | `public/docs/diagrama-classes-fase7.png` e `diagrama-sequencia-fase7.png`. |
-| 1.3.1 | Pitch ≤ 3 min. | Pendente de gravação; Home pronta para `pitchUrl`. |
-| 1.3.1 | Vídeo público na Home. | `src/data/entrega.js` + `Hero.jsx`. |
+| 1.3.1 | Pitch ≤ 3 min. | [Vídeo público do pitch da Fase 7](https://youtu.be/7Wj7URADJXY?is=-58kvTCU-98ZBtOD). |
+| 1.3.1 | Vídeo público na Home. | O card da Home abre o vídeo configurado em `src/data/entrega.js`. |
 | 1.4 | Site publicado. | https://devourerhope.github.io/SeederLink-Fase-7/ |
 | 1.6/1.7 | ZIP com PDF + projeto. | Scripts `generate-delivery.py` e `package-delivery.py`. |
 
@@ -23,8 +23,10 @@ Conferência de fechamento: **22/11/2026**.
 3. `npm run build` com `VITE_BASE_PATH=/SeederLink-Fase-7/`
 4. Workflow `.github/workflows/deploy-pages.yml` publica a `main`
 
-## Integrante
+## Integrantes
 
-| Nome | RM |
-| --- | --- |
-| MATEUS AUGUSTO DA COSTA OLIVEIRA GONÇALVES | 570166 |
+| Nome | GitHub | Papel | RM |
+| --- | --- | --- | --- |
+| MATEUS AUGUSTO DA COSTA OLIVEIRA GONÇALVES | [@DevourerHope](https://github.com/DevourerHope) | Owner | 570166 |
+| MATHEUS RISSATO CRISPIM | [@matheusrsst](https://github.com/matheusrsst) | Collaborator | 571038 |
+| ISAAC NILTON ALVARENGA DA SILVA | [@isawc](https://github.com/isawc) | Collaborator | 573766 |
